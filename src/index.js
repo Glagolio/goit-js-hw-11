@@ -30,7 +30,8 @@ searchForm.addEventListener('submit',
     clickOnSearchBtn(searchWords);
 });
 
-loadMoreBtn.addEventListener('click', clickMoreBtn)
+loadMoreBtn.addEventListener('click', clickMoreBtn);
+
 
 
 
