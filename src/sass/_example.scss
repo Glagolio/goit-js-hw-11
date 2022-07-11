@@ -38,11 +38,17 @@
 
 
 .photo-card img {
-  width: 100%;
+  // width: 100%;
+      float: center;
+      width: 240px;
+      height: 160px;
+      object-fit: cover;
+    
 }
 
 
 .info {
+
   margin-left: 5px;
   font-size: 12px;
 }
