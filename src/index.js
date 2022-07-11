@@ -57,6 +57,8 @@ loadMoreBtn.addEventListener('click', () => {
         
     })
 });
+
+
     
 async function searchPhoto(word) {
     const responce = await axios.get(`${URL}/?key=${options.key}&q=${word}&image_type=${options.imageType}&orientation=${options.opientation}&safesearch=${options.safeSearch}&page=${options.page}&per_page=${options.per_page}`);
