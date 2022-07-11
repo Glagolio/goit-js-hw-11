@@ -19,46 +19,51 @@ let searchWords = '';
 let lightBox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: '250' });
 
 
-
-
-searchForm.addEventListener('submit', e => {
+searchForm.addEventListener('submit',
+    e => {
     e.preventDefault();
     galleryEl.innerHTML = '';
     options.page = 1;
     loadMoreBtn.classList.add('is-hidden');
-
     searchWords = searchForm.searchQuery.value;
 
-    searchPhoto(searchWords).then(({ data }) => {
+    clickOnSearchBtn(searchWords);
+});
+
+loadMoreBtn.addEventListener('click', clickMoreBtn)
+
+
+
+async function clickOnSearchBtn(word) {
+    try {
+        const { data } = await searchPhoto(word);
         if (data.hits.length === 0) {
             Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
             return
-        }
+        };
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         galleryMarkup(data.hits);
         options.page += 1;
         loadMoreBtn.classList.remove('is-hidden');
         lightBox.refresh();
+        quantityHits(data)
+    } catch {
+        Notiflix.Notify.warning('ERROR. Something wrong');
+    }
+    
+}
 
-        
-        
-
-    });
-});
-
-loadMoreBtn.addEventListener('click', () => {
-    searchPhoto(searchWords).then(({ data }) => {
+async function clickMoreBtn() {
+    try {
+        const { data } = await searchPhoto(searchWords);
         galleryMarkup(data.hits);
         options.page += 1;
         lightBox.refresh();
         quantityHits(data);
-
-    
-        
-    })
-});
-
-
+    } catch {
+        Notiflix.Notify.warning('ERROR. Something wrong');
+    }
+}
     
 async function searchPhoto(word) {
     const responce = await axios.get(`${URL}/?key=${options.key}&q=${word}&image_type=${options.imageType}&orientation=${options.opientation}&safesearch=${options.safeSearch}&page=${options.page}&per_page=${options.per_page}`);
